@@ -5,6 +5,12 @@ from datetime import datetime, timedelta
 
 
 #let's import the excel file
+def import_excel_file():
+    """
+    Prompt the user to select an Excel file and import student data.
+    Returns a list of students and the workbook file name.
+    """
+    Tk().withdraw()  # Hide the root window 
 filename = askopenfilename(
     title="Please select your caseload file to import",
     filetypes=[("Excel files", "*.xlsx")],
@@ -40,8 +46,8 @@ try:
     print(f"\n{len(students)} students loaded from Excel file.")
     print("\nExcel file loaded successfully.")
 
-except Exception as e:
-    print(f"Error occurred while loading the Excel file: {e}")
+except Exception as error:
+    print(f"Error occurred while loading the Excel file: {error}")
     exit()
 
 #view all students
@@ -71,9 +77,8 @@ def search_student(students, name):
     
     print(f"\nSearching for student: {search_name}")
 
-
     for student in students:
-        if student["name"].lower() == search_name:
+        if str(student.get("name") or "").strip().lower() == search_name:
             print("\nStudent found:")
             for key, value in student.items():
                 print(f"{key}: {value}")
@@ -83,17 +88,12 @@ def search_student(students, name):
 
 #edit student
 def edit_student(students):
-    search_name = input("Enter the name of the student to edit: ")
-    search_name = search_name.strip().lower()
-   
-    matching_students = []
+    search_name = input("Enter the name of the student to edit: ").strip().lower()
+    matching_students = [
+        student for student in students
+        if str(student.get("name") or "").strip().lower() == search_name
+    ]
 
-#find students with the same name
-    for student in students:
-        if student["name"].lower() == search_name:
-            matching_students.append(student)
-            print(f"Found student: {student['name']} - Grade: {student['grade']}")
-#or no matches
     if not matching_students:
         print(f"Student '{search_name}' not found.")
         return
@@ -109,7 +109,7 @@ def edit_student(students):
        print(f"{i}. {student['name']} - Grade: {student['grade']}")
 
     choice = input("Enter the number of the student to edit or 'q' to cancel: ")
-    if choice.lower() == 'q':
+    if choice.lower() == "q":
         print("Edit operation canceled.")
         return
     try:
@@ -155,34 +155,6 @@ new_value = input(f"Enter the new value for {field} (current value: {student[fie
 student[field] = new_value      
 print(f"{field} updated successfully for {student['name']}.")
 
-#main menu
-def main():
-
-    students, workbook_file = import_excel_file()
-    if students is None:
-        print("No students loaded. Exiting.")
-        return
-    while True:
-        print("\nStudent Management Menu:")
-        print("1. View all students")
-        print("2. Search for a student by name")
-        print("3. Edit a student's information")
-        print("4. Exit")
-
-        choice = input("Enter your choice (1-4): ")
-
-        if choice == '1':
-            view_students(students)
-        elif choice == '2':
-            search_student(students, input("Enter the name of the student to search: "))
-        elif choice == '3':
-            edit_student(students)
-        elif choice == '4':
-            print("Exiting the program.")
-            break
-        else:
-            print("Invalid choice. Please try again.")
-
 #IEP Reminder
 from datetime import datetime,timedelta
 
@@ -222,8 +194,58 @@ def send_iep_email(student, reminder_date):
    iep_date = student.get("iep_date")
 
    subject = f"IEP Reminder for {student_name}"
-   message = f"Hello,\n\nThis is a reminder that {student_name]'s '
+   message = f"Hello,\n\nThis is a reminder that {student_name}'s IEP meeting is needing to be scheduled no later than {iep_date}. Please reach out to the student's Teacher of Record to schedule the IEP meeting.\n\nThank you."  
 
-   
+    # --------------------------------------------------------
+    # TESTING ONLY
+    # --------------------------------------------------------
+    # For now, we will print the email instead of
+    # actually sending it.
+    #
+    # We will connect this to Outlook once program is developed and access to Outlook is available.
+    # --------------------------------------------------------
+
+    print("\n--------------------------------")
+    print("EMAIL TO SEND")
+    print("--------------------------------")
+
+    print("To:", parent_email)
+
+    print("CC:", teacher_email)
+
+    print("Subject:", subject)
+
+    print("\nMessage:")
+    print(message)
+
+    print("--------------------------------")
+
+#main menu
+def main():
+
+    students, workbook_file = import_excel_file()
+    if students is None:
+        print("No students loaded. Exiting.")
+        return
+    while True:
+        print("\nStudent Management Menu:")
+        print("1. View all students")
+        print("2. Search for a student by name")
+        print("3. Edit a student's information")
+        print("4. Exit")
+
+        choice = input("Enter your choice (1-4): ")
+
+        if choice == '1':
+            view_students(students)
+        elif choice == '2':
+            search_student(students, input("Enter the name of the student to search: "))
+        elif choice == '3':
+            edit_student(students)
+        elif choice == '4':
+            print("Exiting the program.")
+            break
+        else:
+            print("Invalid choice. Please try again.")   
 #start program
 main()
