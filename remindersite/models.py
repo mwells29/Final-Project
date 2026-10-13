@@ -1,4 +1,5 @@
 from django.db import models
+from multiselectfield import MultiSelectField
 
 
 class Student(models.Model):
@@ -39,17 +40,18 @@ class Student(models.Model):
         ("Wells", "Wells"),
         ("Rossman", "Rossman"),
         ("Walters", "Walters"),
-        ("Brink," "Brink"),
+        ("Brink", "Brink"),
         ("White", "White"),
-        ("Socks," "Socks"),
-        ("Waalkens," "Waalkens"),
-        ("Wilson," "Wilson"),
-        ("Consult", "Consult")
+        ("Socks", "Socks"),
+        ("Waalkens", "Waalkens"),
+        ("Wilson", "Wilson"),
+        ("Consult", "Consult"),
+        ("None","None"),
     ]
     resource = models.CharField(
-        max_length=200,
-        null=True,
-        blank=True,
+        max_length=50,
+        null=False,
+        blank=False,
         choices=RESOURCE_CHOICES
     )
 
@@ -84,7 +86,7 @@ class Student(models.Model):
         choices=NEEDS_CHOICES
     )
 
-    lre = models.integerField(
+    lre = models.IntegerField(
         null=True,
         blank=True
     )   
