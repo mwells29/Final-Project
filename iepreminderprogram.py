@@ -33,14 +33,13 @@ try:
             "former_tor": row[4],
             "resource": row[5],
             "notes": row[6],
-            "current_tor": row[7],
-            "teacher_email": row[8],
-            "update_skyware": row[9],
-            "online_classes": row[10],
-            "needs": row[11],
-            "lre": row[12],
-            "disability": row[13],
-            "parent_email": row[14],
+            "teacher_email": row[7],
+            "update_skyward": row[8],
+            "online_classes": row[9],
+            "needs": row[10],
+            "lre": row[11],
+            "disability": row[12],
+            "parent_email": row[13],
         }
         students.append(student)
     print(f"\n{len(students)} students loaded from Excel file.")
@@ -54,21 +53,20 @@ except Exception as error:
 def view_students(students):
     print("\nStudent List:")
     for student in students:
-        print(f"Name: {student['name']}, 
-              Grade: {student['grade']}, 
-              IEP Date: {student['iep_date']}, 
-              Scheduled: {student['scheduled']}, 
-              Former TOR: {student['former_tor']}, 
-              Resource: {student['resource']}, 
-              Notes: {student['notes']}, 
-              Current TOR: {student['current_tor']}, 
-              Teacher Email: {student['teacher_email']}, 
-              Update Skyware: {student['update_skyware']}, 
-              Online Classes: {student['online_classes']}, 
-              Needs: {student['needs']}, LRE: {student['lre']}, 
-              Disability: {student['disability']}, 
-              Parent Email: {student['parent_email']}")
-            number += 1
+        print(f"Name: {student['name']}, "
+              f"Grade: {student['grade']}, " 
+              f"IEP Date: {student['iep_date']}, "
+              f"Scheduled: {student['scheduled']}, "
+              f"Former TOR: {student['former_tor']}, "
+              f"Resource: {student['resource']}, "
+              f"Notes: {student['notes']}, "
+              f"Teacher Email: {student['teacher_email']}, "
+              f"Update Skyward: {student['update_skyward']}, "
+              f"Online Classes: {student['online_classes']}, "
+              f"Needs: {student['needs']}, LRE: {student['lre']}, "
+              f"Disability: {student['disability']}, "
+              f"Parent Email: {student['parent_email']}")
+        number += 1
 
 #search for a student by name
 def search_student(students, name):
@@ -103,9 +101,9 @@ def edit_student(students):
         print(f"\nEditing student: {student_to_edit['name']} - Grade: {student_to_edit['grade']}")
     else:
 #multiple matches
-   print(f"\nMultiple students found with the name '{search_name}':")
+        print(f"\nMultiple students found with the name '{search_name}': ")
 
-   for i, student in enumerate(matching_students, start=1):
+    for i, student in enumerate(matching_students, start=1):
        print(f"{i}. {student['name']} - Grade: {student['grade']}")
 
     choice = input("Enter the number of the student to edit or 'q' to cancel: ")
@@ -124,36 +122,39 @@ def edit_student(students):
         print("Invalid input. Edit operation canceled.")
         return
 
-print(f"\nEditing student: {student_to_edit['name']}, Grade: {student_to_edit['grade']}")
+    print(f"\nEditing student: {student_to_edit['name']}, Grade: {student_to_edit['grade']}")
 
 #get selected student
-student = matching_students[choice - 1]
+    student = matching_students[choice - 1]
 
 #now display student info
-print("Student Information")
-fields = list(student.keys())
-for i, field in enumerate(fields, start=1):
-    field = fields[i]
+    print("Student Information")
+    fields = list(student.keys())
+    for i, field in enumerate(fields, start=1):
+        field = fields[i]
     print(i+1, ".", field, ":", student[field] )
 
 #what field to edit
-field_choice = input("Enter the number of the field to edit (or 'q' to cancel): ")
-try:
-    field_choice = int(field_choice)
-    if field_choice < 1 or field_choice > len(fields):
-        print("Invalid field number. Edit operation canceled.")
+    field_choice = input("Enter the number of the field to edit (or 'q' to cancel): ")
+
+    try:
+        field_choice = int(field_choice)
+        if field_choice < 1 or field_choice > len(fields):
+            print("Invalid field number. Edit operation canceled.")
         return
     except ValueError:
-    print("Please enter a number corresponding to the field you want to edit.")
-    return
-if field_choice.lower() == 'q':
-    print("Edit operation canceled.")
+
+        print("Please enter a number corresponding to the field you want to edit.")
+        return
+
+    if field_choice.lower() == 'q':
+        print("Edit operation canceled.")
     return
  #update field
-field = fields[field_choice - 1]
-new_value = input(f"Enter the new value for {field} (current value: {student[field]}): ")
-student[field] = new_value      
-print(f"{field} updated successfully for {student['name']}.")
+    field = fields[field_choice - 1]
+    new_value = input(f"Enter the new value for {field} (current value: {student[field]}): ")
+    student[field] = new_value      
+    print(f"{field} updated successfully for {student['name']}.")
 
 #IEP Reminder
 from datetime import datetime,timedelta
@@ -180,27 +181,25 @@ def check_iep_reminders(students):
             reminder_dates = get_iep_reminder_dates(iep_date)
             for reminder_date in reminder_dates:
                 if today == reminder_date:
-                    print(f"Reminder: {student['name']}'s IEP is needing to be scheduled for no later than {iep_date}. Please reach out to the 
-                          student's Teacher of Record to schedule the IEP meeting.")    
+                    print(f"Reminder: {student['name']}'s IEP is needing to be scheduled for no later than {iep_date}. Please reach out to the student's Teacher of Record to schedule the IEP meeting.")    
 
 def send_iep_email(student, reminder_date):
     """
     Send an email reminder for the student's IEP.
     This is a placeholder function. Implement email sending logic here.
     """
-   parent_email = student.get("parent_email")
-   teacher_email = student.get("teacher_email")
-   student_name = student.get("name")
-   iep_date = student.get("iep_date")
+    parent_email = student.get("parent_email")
+    teacher_email = student.get("teacher_email")
+    student_name = student.get("name")
+    iep_date = student.get("iep_date")
 
-   subject = f"IEP Reminder for {student_name}"
-   message = f"Hello,\n\nThis is a reminder that {student_name}'s IEP meeting is needing to be scheduled no later than {iep_date}. Please reach out to the student's Teacher of Record to schedule the IEP meeting.\n\nThank you."  
+    subject = f"IEP Reminder for {student_name}"
+    message = f"Hello,\n\nThis is a reminder that {student_name}'s IEP meeting is needing to be scheduled no later than {iep_date}. Please reach out to the student's Teacher of Record to schedule the IEP meeting.\n\nThank you."  
 
     # --------------------------------------------------------
     # TESTING ONLY
     # --------------------------------------------------------
-    # For now, we will print the email instead of
-    # actually sending it.
+    # For now, we will print the email instead of actually sending it.
     #
     # We will connect this to Outlook once program is developed and access to Outlook is available.
     # --------------------------------------------------------
