@@ -47,7 +47,7 @@ def import_students_from_excel(uploaded_file):
                 raw_grade = values[1]
                 raw_resources = str(values[6] or "None").strip()
                 valid_resources = {value for value, _label in Student.RESOURCE_CHOICES}
-                raw_needs = str(value[11] or "None").strip()
+                raw_needs = str(values[11] or "None").strip()
                 valid_needs = {value for value, _lablel in Student.NEEDS_CHOICES}
                 Student.objects.create(
                     name=str(values[0]).strip(),

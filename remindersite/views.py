@@ -3,11 +3,10 @@ from django.contrib import messages
 from django.db.models import Q
 from.forms import StudentForm, ExcelImportForm
 from .models import Student
-from.services.excel_importer import import_students_from_excel
+from.services.excel_service import import_students_from_excel
 from.services.reminders import send_reminders
-# Create your views here.
 
-#create a view for the dashboard
+
 def dashboard(request):
     query = request.GET.get("q", "").strip()
     students = Student.objects.all().order_by("name")
