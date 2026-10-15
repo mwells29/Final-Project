@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'multiselectfield',
     'remindersite',
 ]
 
@@ -119,7 +120,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
-STATICFILES_DIRS = [BASE_DIR / 'mysite' / 'static']
+STATICFILES_DIRS = [BASE_DIR / 'reminderstie' / 'static']
 
 #email defaults to console until environment variables are configured. 
 #REMEMBER DO NOT HARD CODE PASSWORDS!!!

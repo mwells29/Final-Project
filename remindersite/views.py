@@ -4,7 +4,7 @@ from django.db.models import Q
 from.forms import StudentForm, ExcelImportForm
 from .models import Student
 from.services.excel_service import import_students_from_excel
-from.services.reminders import send_reminders
+from.services.reminders import get_upcoming_reminders
 
 
 def dashboard(request):
@@ -15,11 +15,11 @@ def dashboard(request):
             Q(name__icontains=query) |
             Q(grade__icontains=query) 
         )
-    return render(request, 'dashboard.html', 
+    return render(request, 'remindersite/dashboard.html', 
                       {"students": students, 
                        "query": query,
                        "student_count": Student.objects.count(),
-                       "remidners": get_upcoming_reminders(),
+                       "reminders": get_upcoming_reminders(),
                        "import_form": ExcelImportForm(),})
         
 #get student detail view

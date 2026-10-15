@@ -133,5 +133,11 @@ class Student(models.Model):
        null=False,
        blank=False
     )
+
+    parent_email = models.EmailField(
+        max_length=254,
+        null=True,
+        blank=True
+    )
     def __str__(self):
         return self.name
