@@ -3,10 +3,6 @@ from multiselectfield import MultiSelectField
 
 
 class Student(models.Model):
-    name = models.CharField(max_length=200,
-        null=False,
-        blank=False
-    )
 
     GRADE_CHOICES = [
         ("FR", "Freshman"),
@@ -14,6 +10,59 @@ class Student(models.Model):
         ("JR", "Junior"),
         ("SR", "Senior"),
     ]
+
+    RESOURCE_CHOICES = [
+       ("Wells", "Wells"),
+       ("Rossman", "Rossman"),
+       ("Walters", "Walters"),
+       ("Brink", "Brink"),
+       ("White", "White"),
+       ("Socks", "Socks"),
+       ("Waalkens", "Waalkens"),
+       ("Wilson", "Wilson"),
+       ("Consult", "Consult"),
+       ("None","None"),
+    ]
+
+    NEEDS_CHOICES = [
+       ("None", "None"),
+       ("Write", "Write"),
+       ("Schedule", "Schedule"),
+       ("Update", "Update"),
+       ("Done", "Done")
+    ]
+
+    DISABILITY_CHOICES = [
+       ("None", "None"),
+       ("SLD", "SLD"),
+       ("OHI", "OHI"),
+       ("Speech", "Speech"),
+       ("Emotional", "Emotional"),
+       ("Intellectual", "Intellectual"),
+       ("Autism", "Autism"),
+       ("Hearing", "Hearing"),
+       ("Visual", "Visual"),
+       ("Orthopedic", "Orthopedic"),
+       ("TBI", "TBI"),
+       ("Deaf-Blindness", "Deaf-Blindness"),
+    ]   
+
+    TOR_CHOICES = [
+       ("Wells", "Wells"),
+       ("Rossman", "Rossman"),
+       ("Walters", "Walters"),
+       ("Brink", "Brink"),
+       ("White", "White"),
+       ("Socks", "Socks"),
+       ("Waalkens", "Waalkens"),
+       ("Wilson", "Wilson"),
+    ]
+
+    name = models.CharField(max_length=200,
+        null=False,
+        blank=False
+    )
+
     grade = models.CharField(max_length=20,
         null=False,
         blank=False,
@@ -36,18 +85,13 @@ class Student(models.Model):
         blank=True
     )
 
-    RESOURCE_CHOICES = [
-        ("Wells", "Wells"),
-        ("Rossman", "Rossman"),
-        ("Walters", "Walters"),
-        ("Brink", "Brink"),
-        ("White", "White"),
-        ("Socks", "Socks"),
-        ("Waalkens", "Waalkens"),
-        ("Wilson", "Wilson"),
-        ("Consult", "Consult"),
-        ("None","None"),
-    ]
+    current_tor = models.CharField(
+        max_length=200,
+        null=True,
+        blank=True,
+        choices=TOR_CHOICES
+    )
+
     resource = models.CharField(
         max_length=50,
         null=False,
@@ -71,14 +115,6 @@ class Student(models.Model):
         default=False       
     )   
 
-    NEEDS_CHOICES = [
-        ("None", "None"),
-        ("Write", "Write"),
-        ("Schedule", "Schedule"),
-        ("Update", "Update"),
-        ("Done", "Done")
-    ]
-
     needs = models.CharField(
         max_length=200,
         null=False,
@@ -91,26 +127,11 @@ class Student(models.Model):
         blank=True
     )   
 
-    DISABILITY_CHOICES = [
-        ("None", "None"),
-        ("SLD", "SLD"),
-        ("OHI", "OHI"),
-        ("Speech", "Speech"),
-        ("Emotional", "Emotional"),
-        ("Intellectual", "Intellectual"),
-        ("Autism", "Autism"),
-        ("Hearing", "Hearing"),
-        ("Visual", "Visual"),
-        ("Orthopedic", "Orthopedic"),
-        ("TBI", "TBI"),
-        ("Deaf-Blindness", "Deaf-Blindness"),
-    ]       
-
     disability = MultiSelectField(
-        choices=DISABILITY_CHOICES,
-        max_choices=11,
-        null=False,
-        blank=False
+       choices=DISABILITY_CHOICES,
+       max_choices=11,
+       null=False,
+       blank=False
     )
     def __str__(self):
         return self.name
