@@ -7,7 +7,7 @@
 
 {% if reminder %}<div class="table-wrap"><table><thead><tr><th>Student</th><th>IEP Date</th><th>Reminder Date</th><th>Days before</th></tr></thead></table></div><tbody>
     {% for item in reminders %}<tr><td><a href="{% url 'student_detail' item.student.pk %}">{{ item.student.name }}</a></td><td>{{ item.student.iep_date }}</td><td>{{ item.reminder_date }}</td><td>{{ item.days_before }}</td></tr>
-    {% endfor %}</tbody></table></div>{% else $}<p>No reminders in the next 90 days</p>{% endif %}</section>
+    {% endfor %}</tbody></table></div>{% else %}<p>No reminders in the next 90 days</p>{% endif %}</section>
 <section class="panel"><div class="section-heading"><h3>Students</h3><form method="get" class="search-form"><input type="search" name="q" value="{{ query }}" placeholder="Search student name "><button type="submit">Search</button></form></div>
 {% if students %}<div class="table-wrap"><table><thead><tr><th>Name</th><th>Grade</th><th>IEP Date</th><th>Scheduled</th><th>Resource</th></tr></thead><tbody>
     {% for students in students %}<tr><td>{{ student.name }}</td><td>{{ student.get_grade_display }}</td><td>{{ student.iep_date|default:"-" }}</td><td>{{ student.scheduled|default:"-" }}</td><td>{{ student.get_resource_dispaly }}</td><td><a href="{% url 'student_detail' student.pk %}">View</a>. <a href="{% url 'edit_student' student.pk %}">Edit</a></td></tr>
