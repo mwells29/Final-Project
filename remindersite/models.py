@@ -44,7 +44,7 @@ class Student(models.Model):
        ("Blind/low Vison", "Blind/low Vision"),
        ("Orthopedic", "Orthopedic"),
        ("TBI", "TBI"),
-       ("Deaf", "Deaf")
+       ("Deaf", "Deaf"),
        ("Deaf-Blindness", "Deaf-Blindness"),
        ("Developmentally Delayed, Developmentally Delayed"),
 
