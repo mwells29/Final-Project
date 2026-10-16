@@ -57,10 +57,14 @@ def import_excel(request):
     if request.method == "POST":
         form = ExcelImportForm(request.POST, request.FILES)
         if form.is_valid():
-            excel_file = request.FILES["file"]
-            import_students_from_excel(excel_file)
-            messages.success(request, "Students imported successfully.")
-            return redirect("dashboard")
+            excel_file = form.cleaned_data["excel_file"]
+
+            try:
+                import_students_from_excel(excel_file)
+                messages.success(request, "Students imported successfully.")
+                return redirect("dashboard")
+            except Exception as e:
+                    messages.error(request, f"Error importing excel file: {e}")
     else:
         form = ExcelImportForm()
     return render(request, "remindersite/import_excel.html", {"form": form})
