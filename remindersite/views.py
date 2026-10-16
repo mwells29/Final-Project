@@ -5,6 +5,7 @@ from.forms import StudentForm, ExcelImportForm
 from .models import Student
 from.services.excel_service import import_students_from_excel
 from.services.reminders import get_upcoming_reminders
+from datetime import date
 
 
 def dashboard(request):
@@ -15,12 +16,22 @@ def dashboard(request):
             Q(name__icontains=query) |
             Q(grade__icontains=query) 
         )
-    return render(request, 'remindersite/dashboard.html', 
-                      {"students": students, 
-                       "query": query,
-                       "student_count": Student.objects.count(),
-                       "reminders": get_upcoming_reminders(),
-                       "import_form": ExcelImportForm(),})
+    today = date.today()
+    for student in students:
+            if student.iep_date:
+                student.days_until_iep = (student.iep_date - today).days
+            else:
+                student.days_until_iep = None
+
+    context = {
+        "students": students,
+        "query": query,
+        "student_count": Student.objects.count(),
+        "reminders": get_upcoming_reminders(),
+        "import_form": ExcelImportForm(),
+    }
+    return render(request, 'remindersite/dashboard.html', context)
+                      
         
 #get student detail view
 def student_detail(request, student_id):

@@ -20,7 +20,7 @@
 </section>
 
 <section class="panel">
-    <h3>Upcoming IEP Reminders</h3>
+    <h3>Upcoming IEPs</h3>
     {% if reminders %}
     <div class="table-wrap">
         <table>
@@ -29,7 +29,7 @@
                  <th>Student</th>
                  <th>IEP Date</th>
                  <th>Reminder Date</th>
-                 <th>Days before</th>
+                 <th>Days until IEP</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +46,14 @@
                     </td>
                     <td>{{ item.student.iep_date }}</td>
                     <td>{{ item.reminder_date }}</td>
-                    <td>{{ item.days_before }}</td>
+                    <td>{% if item.days_until_iep == 0%}
+                        <strong>Due Today</strong>
+                        {% elif item.days_until_iep < 0 %}
+                            Overdue by {{ item.days_until_iep|stringformat:"d"|cut:"-"}} days
+                        {% else %}
+                            {{ item.days_until_iep }} days
+                        {% endif %}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
