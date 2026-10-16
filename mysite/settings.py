@@ -120,7 +120,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [BASE_DIR / 'reminderstie' / 'static']
+STATICFILES_DIRS = [BASE_DIR / 'remindersite' / 'static']
 
 #email defaults to console until environment variables are configured. 
 #REMEMBER DO NOT HARD CODE PASSWORDS!!!
