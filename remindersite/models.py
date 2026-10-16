@@ -46,7 +46,7 @@ class Student(models.Model):
        ("TBI", "TBI"),
        ("Deaf", "Deaf"),
        ("Deaf-Blindness", "Deaf-Blindness"),
-       ("Developmentally Delayed, Developmentally Delayed"),
+       ("Developmentally Delayed", "Developmentally Delayed"),
 
     ]   
 
@@ -142,7 +142,7 @@ class Student(models.Model):
 
     disability = MultiSelectField(
        choices=DISABILITY_CHOICES,
-       max_choices=11,
+       max_choices=14,
        null=False,
        blank=False
     )
