@@ -36,7 +36,7 @@
         <dt>Online Classes</dt>
             <dd>{{ student.online_classes|yesno:"Yes,No"}}</dd>
         <dt>Notes</dt>
-            <dd>{{ student.notes|default:"-"|linebreakbr }}</dd>
+            <dd>{{ student.notes|default:"-"|linebreaksbr }}</dd>
     </dl>
         <a href="{% url 'dashboard' %}">Back to dashboard</a>
 </section>
