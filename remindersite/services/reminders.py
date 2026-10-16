@@ -15,4 +15,4 @@ def get_upcoming_reminders(today=None):
         for days, reminder_date in get_iep_reminder_dates(student.iep_date).items():
             if today <= reminder_date <= today + timedelta(days=90):
                 reminders.append({"student": student, "days_before": days, "reminder_date": reminder_date, "days_until_iep": days_until_iep,})
-    return sorted(reminders, key=lambda item: item["student"].iep_date, reverse=True)
+    return sorted(reminders, key=lambda item: item["student"].iep_date)
