@@ -30,12 +30,20 @@ def _choice(value, choices, field_name, default=None):
     cleaned = str(value or "").strip()
     if not cleaned and default is not None:
         return default
-    if cleaned not in valid_values:
+    choices_by_lowercase = {
+        str(choice).lower:choice
+        for choice in valid_values
+    }
+
+    matched = choices_by_lowercase.get(cleaned.lower())
+
+    if matched is None:
         raise ValueError(
-            f"Invalid {field_name}: {cleaned!r}."
+            f"Invalid {field_name}: {cleaned!r}. "
             f"Allowed values: {', '.join(sorted(valid_values))}"
         )
-    return cleaned
+        
+    return matched
 
 @transaction.atomic
 def import_students_from_excel(uploaded_file):

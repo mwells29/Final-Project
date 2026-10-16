@@ -25,11 +25,11 @@ class Student(models.Model):
     ]
 
     NEEDS_CHOICES = [
-       ("NONE", "None"),
-       ("WRITE", "Write"),
-       ("SCHEDULE", "Schedule"),
-       ("UPDATE", "Update"),
-       ("DONE", "Done")
+       ("None", "None"),
+       ("Write", "Write"),
+       ("Schedule", "Schedule"),
+       ("Update", "Update"),
+       ("Done", "Done")
     ]
 
     DISABILITY_CHOICES = [
