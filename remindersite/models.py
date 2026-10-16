@@ -36,15 +36,18 @@ class Student(models.Model):
        ("None", "None"),
        ("SLD", "SLD"),
        ("OHI", "OHI"),
-       ("Speech", "Speech"),
+       ("Language/Speech", "Language/Speech"),
        ("Emotional", "Emotional"),
-       ("Intellectual", "Intellectual"),
+       ("Cognitive", "Cognitive"),
        ("Autism", "Autism"),
        ("Hearing", "Hearing"),
-       ("Visual", "Visual"),
+       ("Blind/low Vison", "Blind/low Vision"),
        ("Orthopedic", "Orthopedic"),
        ("TBI", "TBI"),
+       ("Deaf", "Deaf")
        ("Deaf-Blindness", "Deaf-Blindness"),
+       ("Developmentally Delayed, Developmentally Delayed"),
+
     ]   
 
     TOR_CHOICES = [
@@ -56,6 +59,15 @@ class Student(models.Model):
        ("Socks", "Socks"),
        ("Waalkens", "Waalkens"),
        ("Wilson", "Wilson"),
+    ]
+
+    LRE_CHOICES = [
+        (50, "50"),
+        (51, "51"),
+        (52, "52"),
+        (53, "53"),
+        (54, "54"),
+        (57, "57"),
     ]
 
     name = models.CharField(max_length=200,
@@ -124,7 +136,8 @@ class Student(models.Model):
 
     lre = models.IntegerField(
         null=True,
-        blank=True
+        blank=True,
+        choices=LRE_CHOICES
     )   
 
     disability = MultiSelectField(
