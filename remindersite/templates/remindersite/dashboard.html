@@ -1,17 +1,102 @@
 {%extends 'remindersite/base.html' %}
-{% block title %}Dashboard | Caseload Tracker {% endblock %}
+{% block title %}Dashboard | Caseload Tracker{% endblock %}
 {% block content %}
-<section class="page-heading"><div><h2>Caseload Dashboard</h2><p>{{ student_count }} Student Record {{ student_count|pluralize }}</p></div><a class="button" href="{% url 'add_student' %}"">+ Add Student</a></section>
-<section class="panel"></a><h3>Import Caseload Excel</h3><p>Upload an .xlsx Excel.</p><form method="post" enctype="multipart/form-data" action="{% url 'import_excel' %}">{% csrf_token %}{{ import_form.as_p }}<button type="submit">Import students</button></form></section>
-<section class="panel"><h3>Upcoming IEP Reminders</h3>
+<section class="page-heading">
+    <div>
+        <h2>Caseload Dashboard</h2>
+        <p>{{ student_count }} Student Record {{ student_count|pluralize }}</p>
+    </div>
+    <a class="button" href="{% url 'add_student' %}">+ Add Student</a>
+</section>
 
-{% if reminder %}<div class="table-wrap"><table><thead><tr><th>Student</th><th>IEP Date</th><th>Reminder Date</th><th>Days before</th></tr></thead></table></div><tbody>
-    {% for item in reminders %}<tr><td><a href="{% url 'student_detail' item.student.pk %}">{{ item.student.name }}</a></td><td>{{ item.student.iep_date }}</td><td>{{ item.reminder_date }}</td><td>{{ item.days_before }}</td></tr>
-    {% endfor %}</tbody></table></div>{% else %}<p>No reminders in the next 90 days</p>{% endif %}</section>
-<section class="panel"><div class="section-heading"><h3>Students</h3><form method="get" class="search-form"><input type="search" name="q" value="{{ query }}" placeholder="Search student name "><button type="submit">Search</button></form></div>
-{% if students %}<div class="table-wrap"><table><thead><tr><th>Name</th><th>Grade</th><th>IEP Date</th><th>Scheduled</th><th>Resource</th></tr></thead><tbody>
-    {% for students in students %}<tr><td>{{ student.name }}</td><td>{{ student.get_grade_display }}</td><td>{{ student.iep_date|default:"-" }}</td><td>{{ student.scheduled|default:"-" }}</td><td>{{ student.get_resource_dispaly }}</td><td><a href="{% url 'student_detail' student.pk %}">View</a>. <a href="{% url 'edit_student' student.pk %}">Edit</a></td></tr>
-    {% endfor %}</tbody></table></div>
-{% else %}<p>No student record found.</p>
-{% endif %}</section> 
+<section class="panel"></a>
+    <h3>Import Caseload Excel</h3>
+    <p>Upload an .xlsx Excel.</p>
+    <form method="post" enctype="multipart/form-data" action="{% url 'import_excel' %}">
+        {% csrf_token %}
+        {{ import_form.as_p }}
+        <button type="submit">Import students</button>
+    </form>
+</section>
+
+<section class="panel">
+    <h3>Upcoming IEP Reminders</h3>
+    {% if reminders %}
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                 <th>Student</th>
+                 <th>IEP Date</th>
+                 <th>Reminder Date</th>
+                 <th>Days before</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in reminders %}
+                <tr>
+                    <td>
+                        {% if item.student.pk %}
+                            <a href="{% url 'student_detail' item.student.pk %}">
+                                {{ item.student.name }}</a>
+                            </a>
+                        {% else %}
+                                {{ item.student.name }}
+                        {% endif %}
+                    </td>
+                    <td>{{ item.student.iep_date }}</td>
+                    <td>{{ item.reminder_date }}</td>
+                    <td>{{ item.days_before }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p>No reminders in the next 90 days</p>
+    {% endif %}
+</section>
+
+<section class="panel">
+    <div class="section-heading">
+        <h3>Students</h3>
+        <form method="get" class="search-form">
+            <input type="search" name="q" value="{{ query }}" placeholder="Search student name ">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+{% if students %}
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Grade</th>
+                <th>IEP Date</th>
+                <th>Scheduled</th>
+                <th>Resource</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.name }}</td>
+                <td>{{ student.get_grade_display }}</td>
+                <td>{{ student.iep_date|default:"-" }}</td>
+                <td>{{ student.scheduled|default:"-" }}</td>
+                <td>{{ student.get_resource_dispaly }}</td>
+                <td>
+                    <a href="{% url 'student_detail' student.pk %}">View</a>
+                    |
+                    <a href="{% url 'edit_student' student.pk %}">Edit</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+    <p>No student record found.</p>
+{% endif %}
+</section> 
 {% endblock %}

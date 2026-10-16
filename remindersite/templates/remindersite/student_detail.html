@@ -1,10 +1,43 @@
 {% extends 'reminderssite/base.html' %}
 {% block title %}{{ student.name }} | Caseload Tracker{% endblock %}
 {% block content %}
-<section class="page-heading"><div><h2>{{ student.name }}</h2><p>{{ student.get_grade_dispaly }}</p></div><a class="button" href="{% url 'edit_student' student.pk %}">Edit Student</a></section>
-<section class="panel"><dl class="details">
-<dt>IEP date</dt><dd>{{ student.iep_date|default:"-" }}</dd><dt>Scheduled Date</dt><dd>{{ student.scheduled|default:"-" }}</dd><dt>Former TOR</dt><dd>{{ student.former_tor|default:"-"}}</dd>
-<dt>Resource</dt><dd>{{ student.get_resource_display }}</dd><dt>LRE</dt><dd>{{ student.lre|default:"-" }}</dd><dt>Disability</dt><dd>{{ student.disability|join:", " }}</dd><dt>Parent email</dt><dd>{{ student.parent_email|default:"-" }}</dd>
-<dt>Teacher email</dt><dd>{{ student.teacher_email|default:"-" }}</dd><dt>Update Skyward</dt><dd>{{ student.update_skyward|yesno:"Yes,No" }}</dd><dt>Online Classes</dt><dd>{{ student.online_classes|yesno:"Yes,No }}</dd>
-<dt>Notes</dt><dd>{{ student.notes|default:"-"|linebreakbr }}</dd></dl><a href="{% url 'dashboard' %}">Back to dashboard</a></section>
+<section class="page-heading">
+    <div>
+        <h2>
+            {{ student.name }}
+        </h2>
+            <p>
+                {{ student.get_grade_dispaly }}
+            </p>
+    </div>
+        <a class="button" href="{% url 'edit_student' student.pk %}">Edit Student</a>
+</section>
+
+<section class="panel">
+    <dl class="details">
+        <dt>IEP date</dt>
+            <dd>{{ student.iep_date|default:"-" }}</dd>
+        <dt>Scheduled Date</dt>
+            <dd>{{ student.scheduled|default:"-" }}</dd>
+        <dt>Former TOR</dt>
+            <dd>{{ student.former_tor|default:"-"}}</dd>
+        <dt>Resource</dt>
+            <dd>{{ student.get_resource_display }}</dd>
+        <dt>LRE</dt>
+            <dd>{{ student.lre|default:"-" }}</dd>
+        <dt>Disability</dt>
+            <dd>{{ student.disability|join:", " }}</dd>
+        <dt>Parent email</dt>
+            <dd>{{ student.parent_email|default:"-" }}</dd>
+        <dt>Teacher email</dt>
+            <dd>{{ student.teacher_email|default:"-" }}</dd>
+        <dt>Update Skyward</dt>
+            <dd>{{ student.update_skyward|yesno:"Yes,No" }}</dd>
+        <dt>Online Classes</dt>
+            <dd>{{ student.online_classes|yesno:"Yes,No }}</dd>
+        <dt>Notes</dt>
+            <dd>{{ student.notes|default:"-"|linebreakbr }}</dd>
+    </dl>
+        <a href="{% url 'dashboard' %}">Back to dashboard</a>
+</section>
 {% endblock %}

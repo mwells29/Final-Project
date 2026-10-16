@@ -10,11 +10,19 @@
 <body>
 <header class="site-header">
     <img src="{% static 'remindersite/images/WCHS_WarriorHead_3Color.png' %}" alt="School logo" class="site-logo">
-    <div><h1>Whiteland Community High School</h1><p>Special Education Caseload Tracker</p></div>
+    <div>
+        <h1>Whiteland Community High School</h1>
+            <p>Special Education Caseload Tracker</p>
+    </div>
 </header>
-<nav class="nav"><a href="{% url 'dashboard' %}">Dashboard</a><a href="{% url 'add_student' %}">Add Student</a><a href="/admin/">Admin</a></nav>
+<nav class="nav"><a href="{% url 'dashboard' %}">Dashboard</a>
+    <a href="{% url 'add_student' %}">Add Student</a>
+    <a href="/admin/">Admin</a>
+</nav>
 <main class="container">
-    {% for message in messages %}<div class="message">{{ message }}</div>{% endfor %}
+    {% for message in messages %}
+    <div class="message">{{ message }}</div>
+    {% endfor %}
     {% block content %}{% endblock %}
 </main>
 <footer>WCHS Caseload Tracker</footer>
