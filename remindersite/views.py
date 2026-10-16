@@ -54,17 +54,20 @@ def edit_student(request, student_id):
 
 #create a view for importing students from excel
 def import_excel(request):
-    if request.method == "POST":
-        form = ExcelImportForm(request.POST, request.FILES)
-        if form.is_valid():
-            excel_file = form.cleaned_data["excel_file"]
+    if request.method != "POST":
+        return redirect("dashboard")
+    form = ExcelImportForm(request.POST, request.FILES)
+    
+    if form.is_valid():
+        excel_file = form.cleaned_data["excel_file"]
 
-            try:
-                import_students_from_excel(excel_file)
-                messages.success(request, "Students imported successfully.")
-                return redirect("dashboard")
-            except Exception as e:
-                    messages.error(request, f"Error importing excel file: {e}")
+        try:
+            imported_count = import_students_from_excel(excel_file)
+            messages.success(request, "{imported_count} students imported successfully.")
+        except Exception as e:
+            messages.error(request, f"Error importing excel file: {e}")
     else:
-        form = ExcelImportForm()
-    return render(request, "remindersite/import_excel.html", {"form": form})
+        messages.error(
+            request, f"Invalid upload form: {form.errors}"
+        )
+    return redirect ("dashboard")
