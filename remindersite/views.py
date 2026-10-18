@@ -4,7 +4,7 @@ from django.db.models import Q
 from.forms import StudentForm, ExcelImportForm
 from .models import Student
 from.services.excel_service import import_students_from_excel
-from.services.reminders import get_upcoming_reminders
+from.services.reminders import get_days_until_ieps
 from datetime import date
 
 
@@ -27,7 +27,7 @@ def dashboard(request):
         "students": students,
         "query": query,
         "student_count": Student.objects.count(),
-        "reminders": get_upcoming_reminders(),
+        "day_until_due": get_days_until_ieps(),
         "import_form": ExcelImportForm(),
     }
     return render(request, 'remindersite/dashboard.html', context)
@@ -82,3 +82,4 @@ def import_excel(request):
             request, f"Invalid upload form: {form.errors}"
         )
     return redirect ("dashboard")
+

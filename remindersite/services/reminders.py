@@ -18,3 +18,22 @@ def get_upcoming_reminders(today=None):
             if today <= reminder_date <= today + timedelta(days=90):
                 reminders.append({"student": student, "days_before": days, "reminder_date": reminder_date, "days_until_iep": days_until_iep,})
     return sorted(reminders, key=lambda item: item["student"].iep_date)
+
+def get_days_until_ieps(today=None):
+    today = today or timezone.localdate()
+    ieps=[]
+
+    for student in Student.objects.exclude(
+        iep_date_isnull=True
+    ).order_by("name", "-iep_date"):
+        days_until_iep = (student.iep_date - today).days
+
+        if days_until_iep < -90:
+            continue
+
+        ieps.append({
+            "student": student,
+            "days_until_iep":days_until_iep,
+        })
+
+    return ieps

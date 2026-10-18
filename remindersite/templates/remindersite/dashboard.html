@@ -9,7 +9,7 @@
     <a class="button" href="{% url 'add_student' %}">+ Add Student</a>
 </section>
 
-<section class="panel"></a>
+<section class="panel">
     <h3>Import Caseload Excel</h3>
     <p>Upload an .xlsx Excel.</p>
     <form method="post" enctype="multipart/form-data" action="{% url 'import_excel' %}">
@@ -28,28 +28,27 @@
                 <tr>
                  <th>Student</th>
                  <th>IEP Date</th>
-                 <th>Reminder Date</th>
                  <th>Days until IEP</th>
                 </tr>
             </thead>
             <tbody>
-                {% for item in reminders %}
+                {% for item in days_until_iep %}
                 <tr>
                     <td>
-                        {% if item.student.pk %}
-                            <a href="{% url 'student_detail' item.student.pk %}">
-                                {{ item.student.name }}</a>
-                            </a>
+                        <a href="{% url 'student_detail' item.student.pk %}">
+                            {{ item.student.name }}</a>
+                        </a>
                         {% else %}
                                 {{ item.student.name }}
                         {% endif %}
                     </td>
-                    <td>{{ item.student.iep_date }}</td>
-                    <td>{{ item.reminder_date }}</td>
-                    <td>{% if item.days_until_iep == 0%}
-                        <strong>Due Today</strong>
+                    <td>{{ item.student.iep_date|date:"M d, Y" }}</td>
+                    <td>{ item.days_until_iep == 0 %}
+                            <strong>Due Today</strong>
                         {% elif item.days_until_iep < 0 %}
-                            Overdue by {{ item.days_until_iep|stringformat:"d"|cut:"-"}} days
+                            <strong>
+                                Overdue by {{ item.days_until_iep|stringformat:"d"|cut:"-" }} days
+                            </strong>
                         {% else %}
                             {{ item.days_until_iep }} days
                         {% endif %}
@@ -60,7 +59,7 @@
         </table>
     </div>
     {% else %}
-        <p>No reminders in the next 90 days</p>
+        <p>No IEP dates tod display. </p>
     {% endif %}
 </section>
 
@@ -74,6 +73,7 @@
     </div>
 {% if students %}
 <div class="table-wrap">
+    <h3>View/Edit</h3>
     <table>
         <thead>
             <tr>
@@ -82,6 +82,7 @@
                 <th>IEP Date</th>
                 <th>Scheduled</th>
                 <th>Resource</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -91,7 +92,7 @@
                 <td>{{ student.get_grade_display }}</td>
                 <td>{{ student.iep_date|default:"-" }}</td>
                 <td>{{ student.scheduled|default:"-" }}</td>
-                <td>{{ student.get_resource_dispaly }}</td>
+                <td>{{ student.get_resource_display|default:"-" }}</td>
                 <td>
                     <a href="{% url 'student_detail' student.pk %}">View</a>
                     |
