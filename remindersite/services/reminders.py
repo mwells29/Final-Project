@@ -24,7 +24,7 @@ def get_days_until_ieps(today=None):
     ieps=[]
 
     for student in Student.objects.exclude(
-        iep_date_isnull=True
+        iep_date__isnull=True
     ).order_by("name", "-iep_date"):
         days_until_iep = (student.iep_date - today).days
 
