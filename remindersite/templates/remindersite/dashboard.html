@@ -32,15 +32,15 @@
                 </tr>
             </thead>
             <tbody>
-                {% for item in dashboard_iep %}
+                {% for item in dashboard_ieps %}
                 <tr>
                     <td>
                         <a href="{% url 'student_detail' item.student.pk %}">
-                            {{ item.student.name }}</a>
+                            {{ item.student.name }}
                         </a>
                     </td>
                     <td>{{ item.student.iep_date|date:"M d, Y" }}</td>
-                    <td>{ item.days_until_iep == 0 %}
+                    <td>{% if item.days_until_iep == 0 %}
                             <strong>Due Today</strong>
                         {% elif item.days_until_iep < 0 %}
                             <strong>
@@ -56,7 +56,7 @@
         </table>
     </div>
     {% else %}
-        <p>No IEP dates tod display. </p>
+        <p>No IEP dates to display. </p>
     {% endif %}
 </section>
 
