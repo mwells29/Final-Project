@@ -27,7 +27,7 @@ def dashboard(request):
         "students": students,
         "query": query,
         "student_count": Student.objects.count(),
-        "day_until_due": get_days_until_ieps(),
+        "dashboard_ieps": get_days_until_ieps(),
         "import_form": ExcelImportForm(),
     }
     return render(request, 'remindersite/dashboard.html', context)
